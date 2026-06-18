@@ -11,17 +11,24 @@ export const PreviewStep: React.FC = () => {
   if (!project) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 120px)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 100px)' }}>
       <ToolBar />
 
-      <div style={{ flex: 1, overflow: 'hidden' }}>
+      <div style={{
+        flex: 1,
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f8fafc'
+      }}>
         <PixelCanvas />
       </div>
 
       <ZoomControls />
 
       <div style={{
-        padding: '16px',
+        padding: '12px 20px',
         backgroundColor: 'white',
         borderTop: '1px solid #e5e7eb',
         display: 'flex',
@@ -32,34 +39,55 @@ export const PreviewStep: React.FC = () => {
           onClick={() => setWizardStep('input')}
           style={{
             padding: '8px 16px',
-            backgroundColor: '#f3f4f6',
+            backgroundColor: 'transparent',
             border: '1px solid #d1d5db',
             borderRadius: '6px',
             cursor: 'pointer',
-            fontSize: '14px'
+            fontSize: '14px',
+            color: '#374151',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}
         >
-          ← 返回
+          <span>←</span> 返回选择
         </button>
 
-        <div style={{ fontSize: '14px', color: '#6b7280' }}>
-          {project.width} x {project.height} | {project.palette.length} 种颜色 | {project.width * project.height} 像素
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          fontSize: '13px',
+          color: '#6b7280'
+        }}>
+          <span style={{ padding: '4px 10px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+            {project.width} × {project.height}
+          </span>
+          <span style={{ padding: '4px 10px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+            {project.palette.length} 种颜色
+          </span>
+          <span style={{ padding: '4px 10px', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+            {project.width * project.height} 像素
+          </span>
         </div>
 
         <button
           onClick={() => setWizardStep('export')}
           style={{
-            padding: '8px 16px',
-            backgroundColor: '#3b82f6',
+            padding: '8px 20px',
+            backgroundColor: '#111827',
             color: 'white',
             border: 'none',
             borderRadius: '6px',
             cursor: 'pointer',
             fontSize: '14px',
-            fontWeight: '500'
+            fontWeight: '500',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
           }}
         >
-          导出图纸 →
+          导出图纸 <span>→</span>
         </button>
       </div>
     </div>

@@ -5,7 +5,6 @@ import type { PixelData } from '../../types';
 
 export const PixelCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const project = useProjectStore((s) => s.project);
   const updatePixels = useProjectStore((s) => s.updatePixels);
@@ -41,7 +40,7 @@ export const PixelCanvas: React.FC = () => {
     }
 
     if (showGrid) {
-      ctx.strokeStyle = '#ccc';
+      ctx.strokeStyle = '#d1d5db';
       ctx.lineWidth = 0.5;
 
       for (let x = 0; x <= width; x++) {
@@ -117,12 +116,14 @@ export const PixelCanvas: React.FC = () => {
 
   return (
     <div
-      ref={containerRef}
       style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        height: '100%',
         overflow: 'auto',
-        backgroundColor: '#e5e7eb',
-        flex: 1,
-        cursor: 'crosshair'
+        padding: '20px'
       }}
       onWheel={handleWheel}
     >
@@ -130,7 +131,9 @@ export const PixelCanvas: React.FC = () => {
         ref={canvasRef}
         style={{
           transform: `scale(${zoom})`,
-          transformOrigin: 'top left'
+          transformOrigin: 'center center',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          borderRadius: '4px'
         }}
         onClick={handleClick}
       />
