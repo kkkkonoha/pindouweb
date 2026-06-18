@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { rgbToLab, labToRgb, hexToRgb, rgbToHex } from '../colorConvert';
+import { rgbToLab, hexToRgb, rgbToHex } from '../colorConvert';
 
 describe('colorConvert', () => {
   it('should convert hex to rgb', () => {

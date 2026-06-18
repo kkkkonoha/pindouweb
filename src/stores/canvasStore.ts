@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ToolType } from '../types';
+import type { ToolType } from '../types';
 
 interface CanvasState {
   zoom: number;

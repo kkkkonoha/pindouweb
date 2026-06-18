@@ -8,42 +8,90 @@ export const InputStep: React.FC = () => {
   const setInputType = useProjectStore((s) => s.setInputType);
 
   return (
-    <div className="p-8">
-      <h2 className="text-xl font-bold mb-6">选择输入方式</h2>
+    <div style={{ padding: '32px', maxWidth: '900px', margin: '0 auto' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', textAlign: 'center' }}>
+        选择输入方式
+      </h2>
 
       {!inputType && (
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '32px' }}>
           <button
             onClick={() => setInputType('image')}
-            className="p-6 border-2 rounded-lg hover:border-blue-500 transition"
+            style={{
+              padding: '32px 24px',
+              border: '2px solid #e5e7eb',
+              borderRadius: '12px',
+              backgroundColor: 'white',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'border-color 0.2s'
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
           >
-            <span className="text-4xl block mb-2">🖼️</span>
-            <span className="font-medium">上传图片</span>
+            <div style={{ fontSize: '48px', marginBottom: '12px' }}>🖼️</div>
+            <div style={{ fontSize: '16px', fontWeight: '600', color: '#1f2937' }}>上传图片</div>
+            <div style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>将图片转换为像素画</div>
           </button>
 
           <button
             onClick={() => setInputType('draw')}
-            className="p-6 border-2 rounded-lg hover:border-blue-500 transition"
+            style={{
+              padding: '32px 24px',
+              border: '2px solid #e5e7eb',
+              borderRadius: '12px',
+              backgroundColor: 'white',
+              cursor: 'pointer',
+              textAlign: 'center',
+              transition: 'border-color 0.2s'
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#3b82f6')}
+            onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#e5e7eb')}
           >
-            <span className="text-4xl block mb-2">✏️</span>
-            <span className="font-medium">手绘画布</span>
-          </button>
-
-          <button
-            onClick={() => setInputType('text')}
-            className="p-6 border-2 rounded-lg hover:border-blue-500 transition"
-          >
-            <span className="text-4xl block mb-2">📝</span>
-            <span className="font-medium">文字像素化</span>
+            <div style={{ fontSize: '48px', marginBottom: '12px' }}>✏️</div>
+            <div style={{ fontSize: '16px', fontWeight: '600', color: '#1f2937' }}>手绘画布</div>
+            <div style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>在画布上自由绘制</div>
           </button>
         </div>
       )}
 
-      {inputType === 'image' && <ImageUpload />}
-      {inputType === 'draw' && <DrawingBoard />}
-      {inputType === 'text' && (
-        <div className="p-8 border rounded-lg text-center text-gray-500">
-          文字像素化功能开发中...
+      {inputType === 'image' && (
+        <div>
+          <button
+            onClick={() => setInputType(null)}
+            style={{
+              marginBottom: '16px',
+              padding: '8px 16px',
+              backgroundColor: '#f3f4f6',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+          >
+            ← 返回选择
+          </button>
+          <ImageUpload />
+        </div>
+      )}
+
+      {inputType === 'draw' && (
+        <div>
+          <button
+            onClick={() => setInputType(null)}
+            style={{
+              marginBottom: '16px',
+              padding: '8px 16px',
+              backgroundColor: '#f3f4f6',
+              border: '1px solid #d1d5db',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+          >
+            ← 返回选择
+          </button>
+          <DrawingBoard />
         </div>
       )}
     </div>

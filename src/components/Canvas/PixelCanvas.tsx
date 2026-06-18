@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { useProjectStore } from '../../stores/projectStore';
 import { useCanvasStore } from '../../stores/canvasStore';
-import { PixelData } from '../../types';
+import type { PixelData } from '../../types';
 
 export const PixelCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -118,12 +118,16 @@ export const PixelCanvas: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="overflow-auto bg-gray-200 flex-1"
+      style={{
+        overflow: 'auto',
+        backgroundColor: '#e5e7eb',
+        flex: 1,
+        cursor: 'crosshair'
+      }}
       onWheel={handleWheel}
     >
       <canvas
         ref={canvasRef}
-        className="cursor-crosshair"
         style={{
           transform: `scale(${zoom})`,
           transformOrigin: 'top left'

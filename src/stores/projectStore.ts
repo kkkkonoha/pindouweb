@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Project, PixelData, WizardStep, InputType } from '../types';
+import type { Project, PixelData, WizardStep, InputType } from '../types';
 
 interface ProjectState {
   project: Project | null;
@@ -11,7 +11,7 @@ interface ProjectState {
   setProject: (project: Project) => void;
   updatePixels: (pixels: PixelData[][]) => void;
   setWizardStep: (step: WizardStep) => void;
-  setInputType: (type: InputType) => void;
+  setInputType: (type: InputType | null) => void;
   undo: () => void;
   redo: () => void;
 }

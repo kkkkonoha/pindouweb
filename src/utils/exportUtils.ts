@@ -1,4 +1,4 @@
-import { Project } from '../types';
+import type { Project } from '../types';
 
 export function exportAsPng(project: Project, showGrid: boolean = false): void {
   const canvas = document.createElement('canvas');

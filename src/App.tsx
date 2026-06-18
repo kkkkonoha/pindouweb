@@ -8,18 +8,33 @@ function App() {
   const wizardStep = useProjectStore((s) => s.wizardStep);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
-      <header className="bg-white border-b px-4 py-3">
-        <h1 className="text-xl font-bold">拼豆图纸生成器</h1>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: '#f3f4f6'
+    }}>
+      <header style={{
+        backgroundColor: 'white',
+        borderBottom: '1px solid #e5e7eb',
+        padding: '12px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px'
+      }}>
+        <span style={{ fontSize: '24px' }}>🫘</span>
+        <h1 style={{ fontSize: '20px', fontWeight: 'bold', margin: 0, color: '#1f2937' }}>
+          拼豆图纸生成器
+        </h1>
       </header>
 
       <StepIndicator />
 
-      <main className="flex-1 overflow-hidden">
+      <main style={{ flex: 1, overflow: 'hidden' }}>
         {wizardStep === 'input' && <InputStep />}
         {wizardStep === 'preview' && <PreviewStep />}
         {wizardStep === 'export' && (
-          <div className="p-8 max-w-md mx-auto">
+          <div style={{ padding: '32px', maxWidth: '500px', margin: '0 auto' }}>
             <ExportDialog />
           </div>
         )}

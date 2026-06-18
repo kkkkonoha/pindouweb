@@ -1,4 +1,4 @@
-import { BrandColor } from '../types';
+import type { BrandColor } from '../types';
 import { hexToRgb, rgbToLab, deltaE2000 } from './colorConvert';
 
 export function findClosestBead(

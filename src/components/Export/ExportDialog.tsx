@@ -4,6 +4,7 @@ import { exportAsPng, exportAsSvg } from '../../utils/exportUtils';
 
 export const ExportDialog: React.FC = () => {
   const project = useProjectStore((s) => s.project);
+  const setWizardStep = useProjectStore((s) => s.setWizardStep);
   const [showGrid, setShowGrid] = useState(false);
   const [format, setFormat] = useState<'png' | 'svg'>('png');
 
@@ -18,47 +19,102 @@ export const ExportDialog: React.FC = () => {
   };
 
   return (
-    <div className="p-8 border rounded-lg bg-white">
-      <h2 className="text-xl font-bold mb-6">导出图纸</h2>
+    <div style={{
+      padding: '32px',
+      border: '1px solid #e5e7eb',
+      borderRadius: '12px',
+      backgroundColor: 'white'
+    }}>
+      <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '24px' }}>导出图纸</h2>
 
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">导出格式</label>
-        <div className="flex gap-2">
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: '#374151' }}>
+          导出格式
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setFormat('png')}
-            className={`px-4 py-2 rounded ${
-              format === 'png' ? 'bg-blue-500 text-white' : 'bg-gray-100'
-            }`}
+            style={{
+              padding: '10px 20px',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: format === 'png' ? '#3b82f6' : '#f3f4f6',
+              color: format === 'png' ? 'white' : '#374151',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500'
+            }}
           >
-            PNG
+            PNG 图片
           </button>
           <button
             onClick={() => setFormat('svg')}
-            className={`px-4 py-2 rounded ${
-              format === 'svg' ? 'bg-blue-500 text-white' : 'bg-gray-100'
-            }`}
+            style={{
+              padding: '10px 20px',
+              borderRadius: '6px',
+              border: 'none',
+              backgroundColor: format === 'svg' ? '#3b82f6' : '#f3f4f6',
+              color: format === 'svg' ? 'white' : '#374151',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: '500'
+            }}
           >
-            SVG
+            SVG 矢量
           </button>
         </div>
       </div>
 
-      <div className="mb-6">
-        <label className="flex items-center gap-2">
+      <div style={{ marginBottom: '24px' }}>
+        <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
           <input
             type="checkbox"
             checked={showGrid}
             onChange={(e) => setShowGrid(e.target.checked)}
+            style={{ width: '16px', height: '16px' }}
           />
-          <span className="text-sm">显示网格线</span>
+          <span style={{ fontSize: '14px', color: '#374151' }}>显示网格线</span>
         </label>
+      </div>
+
+      <div style={{ padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px', marginBottom: '20px' }}>
+        <div style={{ fontSize: '14px', color: '#6b7280' }}>
+          图纸信息: {project.width} x {project.height} | {project.palette.length} 种颜色
+        </div>
       </div>
 
       <button
         onClick={handleExport}
-        className="w-full px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+        style={{
+          width: '100%',
+          padding: '12px 24px',
+          backgroundColor: '#22c55e',
+          color: 'white',
+          border: 'none',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          fontWeight: '500'
+        }}
       >
         下载 {format.toUpperCase()}
+      </button>
+
+      <button
+        onClick={() => setWizardStep('preview')}
+        style={{
+          width: '100%',
+          padding: '12px 24px',
+          backgroundColor: '#f3f4f6',
+          color: '#374151',
+          border: '1px solid #d1d5db',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '14px',
+          marginTop: '12px'
+        }}
+      >
+        ← 返回编辑
       </button>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Brand } from '../types';
+import type { Brand } from '../types';
 import { rgbToLab, hexToRgb } from '../utils/colorConvert';
 
 const colors = [

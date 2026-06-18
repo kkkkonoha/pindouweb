@@ -6,29 +6,45 @@ export const ZoomControls: React.FC = () => {
   const setZoom = useCanvasStore((s) => s.setZoom);
   const resetView = useCanvasStore((s) => s.resetView);
 
+  const buttonStyle = {
+    padding: '4px 10px',
+    backgroundColor: '#f3f4f6',
+    border: '1px solid #d1d5db',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '14px'
+  };
+
   return (
-    <div className="flex items-center gap-2 p-2 bg-white border-t">
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px',
+      padding: '8px 12px',
+      backgroundColor: 'white',
+      borderTop: '1px solid #e5e7eb'
+    }}>
       <button
         onClick={() => setZoom(zoom * 0.8)}
-        className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
+        style={buttonStyle}
       >
         -
       </button>
 
-      <span className="text-sm w-16 text-center">
+      <span style={{ fontSize: '14px', width: '60px', textAlign: 'center', color: '#374151' }}>
         {Math.round(zoom * 100)}%
       </span>
 
       <button
         onClick={() => setZoom(zoom * 1.25)}
-        className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
+        style={buttonStyle}
       >
         +
       </button>
 
       <button
         onClick={resetView}
-        className="px-2 py-1 bg-gray-100 rounded hover:bg-gray-200"
+        style={buttonStyle}
       >
         适应
       </button>
