@@ -3,19 +3,21 @@ import { useProjectStore } from '../../stores/projectStore';
 import { pixelateImage, canvasToPixelGrid } from '../../utils/pixelate';
 import { mapColorsToBeads } from '../../utils/colorMatch';
 import { domesticBrand } from '../../data/domestic';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const PRESET_SIZES = [
-  { label: '29 x 29', width: 29, height: 29 },
-  { label: '29 x 58', width: 29, height: 58 },
-  { label: '58 x 29', width: 58, height: 29 },
-  { label: '58 x 58', width: 58, height: 58 },
-  { label: '116 x 116', width: 116, height: 116 },
+  { label: '29×29', width: 29, height: 29 },
+  { label: '29×58', width: 29, height: 58 },
+  { label: '58×29', width: 58, height: 29 },
+  { label: '58×58', width: 58, height: 58 },
+  { label: '116×116', width: 116, height: 116 },
 ];
 
 export const ImageUpload: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const setProject = useProjectStore((s) => s.setProject);
   const setWizardStep = useProjectStore((s) => s.setWizardStep);
+  const isMobile = useIsMobile();
 
   const [targetWidth, setTargetWidth] = useState(29);
   const [targetHeight, setTargetHeight] = useState(29);
@@ -73,7 +75,13 @@ export const ImageUpload: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '32px', border: '2px dashed #d1d5db', borderRadius: '12px', textAlign: 'center', backgroundColor: 'white' }}>
+    <div style={{
+      padding: isMobile ? '20px 16px' : '32px',
+      border: '2px dashed #d1d5db',
+      borderRadius: '12px',
+      textAlign: 'center',
+      backgroundColor: 'white'
+    }}>
       <input
         ref={fileInputRef}
         type="file"
@@ -82,28 +90,28 @@ export const ImageUpload: React.FC = () => {
         style={{ display: 'none' }}
       />
 
-      <div style={{ marginBottom: '24px' }}>
-        <div style={{ fontSize: '48px', marginBottom: '12px' }}>📁</div>
-        <p style={{ color: '#4b5563', marginBottom: '16px', fontSize: '16px' }}>选择图片并设置输出尺寸</p>
+      <div style={{ marginBottom: isMobile ? '16px' : '24px' }}>
+        <div style={{ fontSize: isMobile ? '36px' : '48px', marginBottom: '8px' }}>📁</div>
+        <p style={{ color: '#4b5563', marginBottom: '12px', fontSize: isMobile ? '14px' : '16px' }}>选择图片并设置输出尺寸</p>
       </div>
 
-      <div style={{ marginBottom: '24px', textAlign: 'left', maxWidth: '400px', margin: '0 auto 24px' }}>
-        <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: '#374151' }}>
+      <div style={{ marginBottom: isMobile ? '16px' : '24px', textAlign: 'left', maxWidth: '400px', margin: '0 auto 20px' }}>
+        <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', marginBottom: '8px', color: '#374151' }}>
           输出尺寸
         </label>
-        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
           {PRESET_SIZES.map((preset) => (
             <button
               key={preset.label}
               onClick={() => handlePresetSelect(preset.width, preset.height)}
               style={{
-                padding: '6px 12px',
+                padding: isMobile ? '6px 10px' : '6px 12px',
                 borderRadius: '6px',
                 border: '1px solid #d1d5db',
                 backgroundColor: !useCustomSize && targetWidth === preset.width && targetHeight === preset.height ? '#3b82f6' : '#f3f4f6',
                 color: !useCustomSize && targetWidth === preset.width && targetHeight === preset.height ? 'white' : '#374151',
                 cursor: 'pointer',
-                fontSize: '13px'
+                fontSize: isMobile ? '12px' : '13px'
               }}
             >
               {preset.label}
@@ -112,13 +120,13 @@ export const ImageUpload: React.FC = () => {
           <button
             onClick={() => setUseCustomSize(true)}
             style={{
-              padding: '6px 12px',
+              padding: isMobile ? '6px 10px' : '6px 12px',
               borderRadius: '6px',
               border: '1px solid #d1d5db',
               backgroundColor: useCustomSize ? '#3b82f6' : '#f3f4f6',
               color: useCustomSize ? 'white' : '#374151',
               cursor: 'pointer',
-              fontSize: '13px'
+              fontSize: isMobile ? '12px' : '13px'
             }}
           >
             自定义
@@ -126,7 +134,7 @@ export const ImageUpload: React.FC = () => {
         </div>
 
         {useCustomSize && (
-          <div style={{ display: 'flex', gap: '12px', marginTop: '12px', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '8px', marginTop: '12px', alignItems: 'center', justifyContent: 'center' }}>
             <input
               type="number"
               value={targetWidth}
@@ -134,7 +142,7 @@ export const ImageUpload: React.FC = () => {
               min="1"
               max="200"
               style={{
-                width: '70px',
+                width: '60px',
                 padding: '6px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
@@ -142,7 +150,7 @@ export const ImageUpload: React.FC = () => {
                 textAlign: 'center'
               }}
             />
-            <span style={{ color: '#6b7280' }}>x</span>
+            <span style={{ color: '#6b7280' }}>×</span>
             <input
               type="number"
               value={targetHeight}
@@ -150,7 +158,7 @@ export const ImageUpload: React.FC = () => {
               min="1"
               max="200"
               style={{
-                width: '70px',
+                width: '60px',
                 padding: '6px',
                 border: '1px solid #d1d5db',
                 borderRadius: '6px',
@@ -165,21 +173,22 @@ export const ImageUpload: React.FC = () => {
       <button
         onClick={() => fileInputRef.current?.click()}
         style={{
-          padding: '12px 24px',
+          padding: isMobile ? '12px 20px' : '12px 24px',
           backgroundColor: '#3b82f6',
           color: 'white',
           borderRadius: '8px',
           border: 'none',
           cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: '500'
+          fontSize: isMobile ? '14px' : '16px',
+          fontWeight: '500',
+          width: isMobile ? '100%' : 'auto'
         }}
       >
         选择图片
       </button>
 
-      <p style={{ fontSize: '13px', color: '#9ca3af', marginTop: '12px' }}>
-        支持 JPG, PNG, GIF, BMP 格式 | 输出: {targetWidth} x {targetHeight}
+      <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '10px' }}>
+        支持 JPG, PNG, GIF, BMP | 输出: {targetWidth} × {targetHeight}
       </p>
     </div>
   );
