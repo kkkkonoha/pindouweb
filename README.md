@@ -1,73 +1,111 @@
-# React + TypeScript + Vite
+# 拼豆图纸生成器
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+一个纯前端 Web 应用，帮助拼豆爱好者快速将图片、文字或手绘转换为可编辑的拼豆图纸。
 
-Currently, two official plugins are available:
+## 功能特性
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 多种输入方式
 
-## React Compiler
+- **上传图片** - 支持 JPG、PNG、GIF、BMP 格式，自动将图片转换为像素画
+- **手绘画布** - 在空白画布上自由绘制像素图案
+- **文字像素化** - 输入任意文字，生成像素风格的文字图案
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 画布编辑工具
 
-## Expanding the ESLint configuration
+- **画笔** - 绘制单个像素点
+- **橡皮** - 擦除像素点
+- **填充** - 填充相同颜色的区域
+- **取色** - 拾取画布上的颜色
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 画布规格
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+支持多种预设尺寸，也可自定义宽高：
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| 预设尺寸 | 适用场景 |
+|---------|---------|
+| 29 × 29 | 小型图案、图标 |
+| 29 × 58 | 竖版图案 |
+| 58 × 29 | 横版图案 |
+| 58 × 58 | 中型图案 |
+| 116 × 116 | 大型复杂图案 |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+自定义尺寸范围：1 × 1 到 200 × 200 像素
+
+### 颜色系统
+
+内置国产拼豆品牌颜色库（40 种颜色），上传图片时自动匹配最接近的拼豆颜色。
+
+### 导出功能
+
+- **PNG 导出** - 像素网格图片，可直接打印
+- **SVG 导出** - 矢量格式，支持无限缩放
+- **可选网格线** - 导出时可选择是否显示网格
+
+### 界面特性
+
+- 响应式设计，支持手机、平板、桌面浏览器
+- 简约大气的 UI 风格
+- 画布支持缩放和平移
+- 撤销/重做功能
+
+## 快速开始
+
+### 本地开发
+
+```bash
+# 克隆项目
+git clone https://github.com/kkkkonoha/pindouweb.git
+cd pindouweb
+
+# 安装依赖
+npm install
+
+# 启动开发服务器
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+浏览器打开 http://localhost:5173/
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 构建部署
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# 构建生产版本
+npm run build
+
+# 预览构建结果
+npm run preview
 ```
+
+## 在线访问
+
+项目已配置 GitHub Actions 自动部署，推送到 main/master 分支后会自动构建并发布到 GitHub Pages。
+
+访问地址：https://kkkkonoha.github.io/pindouweb/
+
+## 技术栈
+
+- React 19 + TypeScript
+- Vite 构建工具
+- Zustand 状态管理
+- Canvas API 像素操作
+- CIEDE2000 色差算法（颜色匹配）
+
+## 项目结构
+
+```
+src/
+├── components/
+│   ├── Canvas/          # 画布组件
+│   ├── Input/           # 输入模块（图片/手绘/文字）
+│   ├── Wizard/          # 向导流程
+│   └── Export/          # 导出功能
+├── stores/              # 状态管理
+├── utils/               # 工具函数
+├── hooks/               # 自定义 Hooks
+├── data/                # 颜色数据
+└── types/               # TypeScript 类型
+```
+
+## 许可证
+
+MIT License
