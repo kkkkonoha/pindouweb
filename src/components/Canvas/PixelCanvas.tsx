@@ -5,6 +5,7 @@ import type { PixelData } from '../../types';
 
 export const PixelCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const project = useProjectStore((s) => s.project);
   const updatePixels = useProjectStore((s) => s.updatePixels);
@@ -71,11 +72,16 @@ export const PixelCanvas: React.FC = () => {
 
   const getCellFromEvent = (e: React.MouseEvent): { x: number; y: number } | null => {
     const canvas = canvasRef.current;
-    if (!canvas || !project) return null;
+    const wrapper = wrapperRef.current;
+    if (!canvas || !wrapper || !project) return null;
 
     const rect = canvas.getBoundingClientRect();
-    const x = Math.floor((e.clientX - rect.left) / CELL_SIZE);
-    const y = Math.floor((e.clientY - rect.top) / CELL_SIZE);
+
+    const canvasX = (e.clientX - rect.left) / zoom;
+    const canvasY = (e.clientY - rect.top) / zoom;
+
+    const x = Math.floor(canvasX / CELL_SIZE);
+    const y = Math.floor(canvasY / CELL_SIZE);
 
     if (x >= 0 && x < project.width && y >= 0 && y < project.height) {
       return { x, y };
@@ -116,14 +122,14 @@ export const PixelCanvas: React.FC = () => {
 
   return (
     <div
+      ref={wrapperRef}
       style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-        overflow: 'auto',
-        padding: '20px'
+        overflow: 'auto'
       }}
       onWheel={handleWheel}
     >
@@ -131,9 +137,9 @@ export const PixelCanvas: React.FC = () => {
         ref={canvasRef}
         style={{
           transform: `scale(${zoom})`,
-          transformOrigin: 'center center',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-          borderRadius: '4px'
+          transformOrigin: 'top left',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
+          borderRadius: '2px'
         }}
         onClick={handleClick}
       />
