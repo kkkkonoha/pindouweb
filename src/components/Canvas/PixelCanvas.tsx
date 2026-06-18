@@ -5,7 +5,7 @@ import type { PixelData } from '../../types';
 
 export const PixelCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const project = useProjectStore((s) => s.project);
   const updatePixels = useProjectStore((s) => s.updatePixels);
@@ -17,6 +17,24 @@ export const PixelCanvas: React.FC = () => {
   const setZoom = useCanvasStore((s) => s.setZoom);
 
   const CELL_SIZE = 20;
+
+  // Auto-fit zoom when project changes
+  useEffect(() => {
+    if (!project || !containerRef.current) return;
+
+    const container = containerRef.current;
+    const containerWidth = container.clientWidth - 40;
+    const containerHeight = container.clientHeight - 40;
+
+    const canvasWidth = project.width * CELL_SIZE;
+    const canvasHeight = project.height * CELL_SIZE;
+
+    const scaleX = containerWidth / canvasWidth;
+    const scaleY = containerHeight / canvasHeight;
+    const fitZoom = Math.min(scaleX, scaleY, 1);
+
+    setZoom(fitZoom);
+  }, [project, setZoom]);
 
   const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
@@ -67,13 +85,13 @@ export const PixelCanvas: React.FC = () => {
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
-    setZoom(zoom * delta);
+    const newZoom = Math.max(0.1, Math.min(3, zoom * delta));
+    setZoom(newZoom);
   }, [zoom, setZoom]);
 
   const getCellFromEvent = (e: React.MouseEvent): { x: number; y: number } | null => {
     const canvas = canvasRef.current;
-    const wrapper = wrapperRef.current;
-    if (!canvas || !wrapper || !project) return null;
+    if (!canvas || !project) return null;
 
     const rect = canvas.getBoundingClientRect();
 
@@ -122,27 +140,35 @@ export const PixelCanvas: React.FC = () => {
 
   return (
     <div
-      ref={wrapperRef}
+      ref={containerRef}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
         width: '100%',
         height: '100%',
-        overflow: 'auto'
+        overflow: 'auto',
+        backgroundColor: '#f8fafc'
       }}
       onWheel={handleWheel}
     >
-      <canvas
-        ref={canvasRef}
-        style={{
-          transform: `scale(${zoom})`,
-          transformOrigin: 'top left',
-          boxShadow: '0 2px 16px rgba(0,0,0,0.06)',
-          borderRadius: '2px'
-        }}
-        onClick={handleClick}
-      />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100%',
+        minWidth: '100%',
+        padding: '20px'
+      }}>
+        <canvas
+          ref={canvasRef}
+          style={{
+            transform: `scale(${zoom})`,
+            transformOrigin: 'center center',
+            boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+            borderRadius: '2px',
+            flexShrink: 0
+          }}
+          onClick={handleClick}
+        />
+      </div>
     </div>
   );
 };
